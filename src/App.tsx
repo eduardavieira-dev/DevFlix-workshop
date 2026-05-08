@@ -75,8 +75,8 @@ function App() {
         </div>
       </section>
 
-      <h2 className="text-center font-medium text-3xl">Explore filmes e séries</h2>
-      <p className="text-center text-neutral-400 text-sm mb-5">
+      <h2 className="text-center font-medium text-3xl mb-2">Explore filmes e séries</h2>
+      <p className="text-center text-neutral-400 text-sm md:mb-5">
         Filtre e busque por filmes e séries pelo título, gênero ou ano
       </p>
       <section className="flex flex-col lg:flex-row max-w-7xl mx-auto gap-4 px-4 md:px-8">
