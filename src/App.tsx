@@ -8,6 +8,7 @@ import {
 } from '@phosphor-icons/react'
 import './App.css'
 import { Banner } from './Banner'
+import { Card } from './Card'
 
 function App() {
   const categorias = [
@@ -75,11 +76,21 @@ function App() {
         </div>
       </section>
 
-      <h2 className="text-center font-medium text-3xl mb-2">Explore filmes e séries</h2>
-      <p className="text-center text-neutral-400 text-sm md:mb-5">
+      <main className="relative z-20 mx-auto -mt-6 md:-mt-2 max-w-7xl px-5 pb-10">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-6">
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </div>
+      </main>
+
+      <h2 className="text-center font-medium text-3xl mb-2 px-2">Explore filmes e séries</h2>
+      <p className="text-center text-neutral-400 text-sm md:mb-5 px-2">
         Filtre e busque por filmes e séries pelo título, gênero ou ano
       </p>
-      <section className="flex flex-col lg:flex-row max-w-7xl mx-auto gap-4 px-4 md:px-8">
+      <section className="flex flex-col lg:flex-row max-w-7xl mx-auto md:gap-4 px-4 md:px-8">
         <aside
           className="
             w-full lg:w-58
@@ -130,7 +141,7 @@ function App() {
         </aside>
 
         <div className="flex-1">
-          <div className="relative w-full max-w-4xl  mx-auto lg:pr-10">
+          <div className="relative w-full max-w-4xl  mx-auto lg:pr-10 mb-2">
             <MagnifyingGlassIcon
               className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
               size={20}
@@ -157,7 +168,7 @@ function App() {
               "
             />
           </div>
-          <div className="flex flex-wrap justify-center lg:justify-start gap-6 p-2 md:p-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-2 md:p-6 md:gap-8">
             <Banner />
             <Banner />
             <Banner />

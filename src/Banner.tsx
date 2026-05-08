@@ -6,16 +6,16 @@ export function Banner() {
 
   return (
     <>
-      <a href="" className="max-w-50 p-2 flex flex-col gap-2">
+      <a href="" className="w-full flex flex-col gap-2">
         <div className="relative">
-          <img src="banner.png" alt="" className="rounded-md max-h-100 object-cover max-w-50" />
+          <img src="banner.png" alt="" className="w-full object-cover rounded-md" />
           <button
             aria-label="Favoritar"
             onClick={(e) => {
               e.preventDefault()
               setIsFavorited(!isFavorited)
             }}
-            className="absolute top-2 -right-1 bg-white/10 text-white p-2 rounded-full border border-white/30 backdrop-blur-md hover:bg-white/20 transition cursor-pointer"
+            className="absolute top-2 right-2 bg-white/10 text-white p-2 rounded-full border border-white/30 backdrop-blur-md hover:bg-white/20 transition cursor-pointer"
           >
             <Heart
               weight={isFavorited ? 'fill' : 'regular'}
