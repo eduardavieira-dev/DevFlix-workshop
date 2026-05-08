@@ -2,8 +2,15 @@
 
 @theme{
   --color-primary: var(--primary);
+  --color-background: var(--background);
 }
 
 :root{
   --primary: #646cff;
+  --background: #0A0A0A;
+}
+
+body{
+  background-color: var(--color-background);
+  color: white;
 }

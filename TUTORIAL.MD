@@ -12,3 +12,7 @@ npm create vite@latest .
 npm install tailwindcss @tailwindcss/vite
 ```
 
+## Adionar o phosphor icons
+```
+npm install @phosphor-icons/react
+```
