@@ -1,4 +1,6 @@
 import {
+  CaretLeftIcon,
+  CaretRightIcon,
   FilmSlateIcon,
   FunnelIcon,
   HeartIcon,
@@ -83,6 +85,14 @@ function App() {
           <Card />
           <Card />
           <Card />
+        </div>
+        <div id="card-buttons" className="flex gap-2 justify-end mt-4">
+          <button className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 p-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer hover:text-cyan-500 hover:border-cyan-500">
+            <CaretLeftIcon weight="bold" />
+          </button>
+          <button className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 p-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer hover:text-cyan-500 hover:border-cyan-500">
+            <CaretRightIcon weight="bold" />
+          </button>
         </div>
       </main>
 
