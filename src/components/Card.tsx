@@ -4,15 +4,15 @@ type CardProps = {
   title: string
   year: number
   rating: number
-  imageUrl: string
+  bannerUrl: string
 }
 
-export function Card({ title, year, rating, imageUrl }: CardProps) {
+export function Card({ title, year, rating, bannerUrl }: CardProps) {
   return (
     <>
       <div className="max-w-xs p-2 flex flex-col gap-2 w-full">
         <img
-          src={imageUrl}
+          src={bannerUrl}
           alt=""
           onError={(e) => {
             e.currentTarget.src =
