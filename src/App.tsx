@@ -24,7 +24,7 @@ function App() {
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
   const [termoBusca, setTermoBusca] = useState('')
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState('')
+  const [categoriasSelecionadas, setCategoriasSelecionadas] = useState<string[]>([])
   const [filmesEncontrados, setFilmesEncontrados] = useState<Filme[]>([])
 
   const carouselRef = useRef<HTMLDivElement | null>(null)
@@ -211,14 +211,16 @@ function App() {
       return filmesEncontrados
     }
 
-    return filmes.filter((filme) => {
-      const matchCategory = categoriaSelecionada
-        ? filme.genres.toLowerCase().includes(categoriaSelecionada.toLowerCase())
-        : true
+    if (categoriasSelecionadas.length === 0) {
+      return filmes
+    }
 
-      return matchCategory
+    return filmes.filter((filme) => {
+      return categoriasSelecionadas.some((cat) =>
+        filme.genres.toLowerCase().includes(cat.toLowerCase())
+      )
     })
-  }, [isSearching, filmesEncontrados, filmes, categoriaSelecionada])
+  }, [isSearching, filmesEncontrados, filmes, categoriasSelecionadas])
 
   const scrollLeft = () => {
     if (!carouselRef.current) {
@@ -355,6 +357,7 @@ function App() {
                   onClick={() => {
                     setFilmeAtual(filme)
                     void enrichMovie(filme)
+                    void abrirModal(filme)
                   }}
                   className={`
                     min-w-[48%]
@@ -366,7 +369,7 @@ function App() {
                     duration-300
                     cursor-pointer
 
-                    ${ativo ? 'scale-105 -translate-y-2' : 'opacity-70 hover:opacity-100'}
+                    ${ativo ? 'scale-105 -translate-y-2 text-cyan-500 font-medium' : 'opacity-70 hover:opacity-100'}
                   `}
                 >
                   <Card {...filme} />
@@ -400,35 +403,54 @@ function App() {
 
       <section className="flex flex-col lg:flex-row max-w-7xl mx-auto md:gap-4 px-4 md:px-8">
         <aside className="w-full lg:w-58 flex-none lg:border-r border-neutral-800 py-6 px-4 md:px-1 flex flex-col gap-4">
-          <h4 className="font-medium text-lg flex items-center gap-1">
-            <FunnelIcon className="text-cyan-500" />
-            Filtrar
-          </h4>
+          <div className="flex justify-between items-center">
+            <h4 className="font-medium text-lg flex items-center gap-1">
+              <FunnelIcon className="text-cyan-500" />
+              Filtrar
+            </h4>
+
+            {categoriasSelecionadas.length > 0 && (
+              <button
+                onClick={() => setCategoriasSelecionadas([])}
+                className="text-xs rounded-full px-3 py-1 border border-orange-400 text-orange-400 hover:border-orange-500 hover:text-orange-500 mr-2"
+              >
+                Limpar filtros
+              </button>
+            )}
+          </div>
 
           <div className="flex flex-wrap gap-1.5 text-sm text-neutral-300">
-            {categorias.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategoriaSelecionada(categoriaSelecionada === cat ? '' : cat)}
-                className={`
-                  text-xs
-                  rounded-full
-                  px-3
-                  py-1
-                  border
-                  transition
-                  cursor-pointer
+            {categorias.map((cat) => {
+              const active = categoriasSelecionadas.includes(cat)
 
-                  ${
-                    categoriaSelecionada === cat
-                      ? 'border-cyan-500 text-cyan-500 bg-cyan-500/10'
-                      : 'border-neutral-700 text-neutral-300 hover:border-cyan-500 hover:text-cyan-500'
+              return (
+                <button
+                  key={cat}
+                  onClick={() =>
+                    setCategoriasSelecionadas((prev) =>
+                      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+                    )
                   }
-                `}
-              >
-                {cat}
-              </button>
-            ))}
+                  className={`
+                    text-xs
+                    rounded-full
+                    px-3
+                    py-1
+                    border
+                    transition
+                    cursor-pointer
+
+                    ${
+                      active
+                        ? 'border-cyan-500 text-cyan-500 bg-cyan-500/10'
+                        : 'border-neutral-700 text-neutral-300 hover:border-cyan-500 hover:text-cyan-500'
+                    }
+                  `}
+                >
+                  {cat}
+                </button>
+              )
+            })}
           </div>
         </aside>
 
