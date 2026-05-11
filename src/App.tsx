@@ -9,7 +9,7 @@ import {
   PlayIcon,
   StarIcon,
 } from '@phosphor-icons/react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { Banner } from './Banner'
 import { Card } from './Card'
@@ -48,34 +48,76 @@ function App() {
       })
     }
   }
-  const filmes = [
-    {
-      id: 1,
-      title: 'O Drama',
-      year: 2026,
-      rating: 7.0,
-      imageUrl: 'background.png',
-    },
-    {
-      id: 2,
-      title: 'Batman',
-      year: 2025,
-      rating: 8.5,
-      imageUrl: 'batman.png',
-    },
-    {
-      id: 3,
-      title: 'Interestelar',
-      year: 2014,
-      rating: 9.1,
-      imageUrl: 'interestelar.png',
-    },
-  ]
+ const filmes = [
+  {
+    id: 1,
+    title: 'O Drama',
+    year: 2026,
+    rating: 7.0,
+    imageUrl: 'background.png',
+    bannerUrl: 'background.png',
+    duration: '1h 46m',
+    genres: 'Romance • Comédia • Drama',
+    description:
+      'Profundamente apaixonados e em meio aos preparativos finais para o grande dia do casamento...',
+    watchUrl: '#',
+  },
+
+  {
+    id: 2,
+    title: 'Batman',
+    year: 2025,
+    rating: 8.5,
+    imageUrl: 'batman.png',
+    bannerUrl: 'batman-banner.png',
+    duration: '2h 10m',
+    genres: 'Ação • Crime',
+    description:
+      'Batman precisa enfrentar uma nova ameaça que coloca Gotham inteira em perigo.',
+    watchUrl: '#',
+  },
+
+  {
+    id: 3,
+    title: 'Interestelar',
+    year: 2014,
+    rating: 9.1,
+    imageUrl: 'interestelar.png',
+    bannerUrl: 'interestelar-banner.png',
+    duration: '2h 49m',
+    genres: 'Ficção Científica • Drama',
+    description:
+      'Uma equipe de astronautas viaja por um buraco de minhoca em busca da sobrevivência da humanidade.',
+    watchUrl: '#',
+  },
+]
+
+const [filmeAtual, setFilmeAtual] = useState(filmes[0])
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setFilmeAtual((prev) => {
+      const currentIndex = filmes.findIndex(
+        (filme) => filme.id === prev.id
+      )
+
+      const nextIndex =
+        currentIndex === filmes.length - 1
+          ? 0
+          : currentIndex + 1
+
+      return filmes[nextIndex]
+    })
+  }, 10000)
+
+  return () => clearInterval(interval)
+}, [])
+
   return (
     <section className="min-h-screen w-full bg-background text-white">
       <section className="relative h-[65vh] md:h-[70vh] lg:h-[85vh] w-full overflow-hidden">
         <img
-          src="background.png"
+          src={filmeAtual.bannerUrl}
           alt=""
           className="absolute inset-0 w-full object-contain md:object-cover md:object-top md:h-full"
         />
@@ -96,32 +138,30 @@ function App() {
 
         <div className="relative z-10 flex h-full items-end md:left-20">
           <div className="max-w-xl px-6 md:px-10 pb-16 md:pb-24">
-            <h1 className="mb-4 text-4xl md:text-6xl font-bold">O Drama</h1>
+            <h1 className="mb-4 text-4xl md:text-6xl font-bold">{filmeAtual.title}</h1>
 
             <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-neutral-300">
               <span className="flex items-center gap-1">
-                <StarIcon weight="fill" className="text-amber-400" /> 7.0
+                <StarIcon weight="fill" className="text-amber-400" /> {filmeAtual.rating.toFixed(1)}
               </span>
-              <span>2026</span>
-              <span>1h 46m</span>
-              <span>Romance • Comédia • Drama</span>
+              <span>{filmeAtual.year}</span>
+              <span>{filmeAtual.duration}</span>
+              <span>{filmeAtual.genres}</span>
             </div>
 
             <p className="mb-6 max-w-lg leading-relaxed text-neutral-200">
-              Profundamente apaixonados e em meio aos preparativos finais para o grande dia do
-              casamento, o casal tem sua felicidade ameaçada quando vêm à tona segredos que jamais
-              poderiam imaginar.
+              {filmeAtual.description}
             </p>
 
             <div className="flex flex-wrap gap-2">
-              <button className="text-sm md:text-md rounded-full bg-cyan-500 px-6 py-3 font-semibold text-white transition hover:bg-cyan-600 cursor-pointer flex items-center gap-1">
+              <a href={filmeAtual.watchUrl} className="text-sm md:text-md rounded-full bg-cyan-500 px-6 py-3 font-semibold text-white transition hover:bg-cyan-600 cursor-pointer flex items-center gap-1">
                 <PlayIcon weight="fill" /> Assistir
-              </button>
+              </a>
 
-              <button className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer flex items-center gap-1">
+              <a className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer flex items-center gap-1">
                 <InfoIcon size={18} />
                 Mais informações
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -141,20 +181,33 @@ function App() {
               px-1 md:px-2
             "
           >
-            {filmes.map((filme) => (
+          {filmes.map((filme) => {
+          const ativo = filme.id === filmeAtual.id
+
+          return (
               <div
                 key={filme.id}
-                className="
+                onClick={() => setFilmeAtual(filme)}
+                className={`
                   min-w-[48%]
                   sm:min-w-[31%]
                   md:min-w-[23%]
                   lg:min-w-[19.2%]
                   flex-shrink-0
-                "
+                  transition-all
+                  duration-300
+                  cursor-pointer
+
+                  ${
+                    ativo
+                      ? 'scale-105 -translate-y-2'
+                      : 'opacity-70 hover:opacity-100'
+                  }
+                `}
               >
                 <Card {...filme} />
               </div>
-            ))}
+            )})}
           </div>
         </div>
 
