@@ -4,10 +4,12 @@ import {
   FilmSlateIcon,
   FunnelIcon,
   HeartIcon,
+  InfoIcon,
   MagnifyingGlassIcon,
   PlayIcon,
   StarIcon,
 } from '@phosphor-icons/react'
+import { useRef, useState } from 'react'
 import './App.css'
 import { Banner } from './Banner'
 import { Card } from './Card'
@@ -22,6 +24,52 @@ function App() {
     'Ficção Científica',
     'Animação',
     'Documentário',
+  ]
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState('')
+  const carouselRef = useRef<HTMLDivElement | null>(null)
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      const cardWidth = carouselRef.current.querySelector('div')?.clientWidth || 0
+
+      carouselRef.current.scrollBy({
+        left: -(cardWidth + 12),
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      const cardWidth = carouselRef.current.querySelector('div')?.clientWidth || 0
+
+      carouselRef.current.scrollBy({
+        left: cardWidth + 12,
+        behavior: 'smooth',
+      })
+    }
+  }
+  const filmes = [
+    {
+      id: 1,
+      title: 'O Drama',
+      year: 2026,
+      rating: 7.0,
+      imageUrl: 'background.png',
+    },
+    {
+      id: 2,
+      title: 'Batman',
+      year: 2025,
+      rating: 8.5,
+      imageUrl: 'batman.png',
+    },
+    {
+      id: 3,
+      title: 'Interestelar',
+      year: 2014,
+      rating: 9.1,
+      imageUrl: 'interestelar.png',
+    },
   ]
   return (
     <section className="min-h-screen w-full bg-background text-white">
@@ -50,7 +98,7 @@ function App() {
           <div className="max-w-xl px-6 md:px-10 pb-16 md:pb-24">
             <h1 className="mb-4 text-4xl md:text-6xl font-bold">O Drama</h1>
 
-            <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-gray-300">
+            <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-neutral-300">
               <span className="flex items-center gap-1">
                 <StarIcon weight="fill" className="text-amber-400" /> 7.0
               </span>
@@ -59,7 +107,7 @@ function App() {
               <span>Romance • Comédia • Drama</span>
             </div>
 
-            <p className="mb-6 max-w-lg leading-relaxed text-gray-200">
+            <p className="mb-6 max-w-lg leading-relaxed text-neutral-200">
               Profundamente apaixonados e em meio aos preparativos finais para o grande dia do
               casamento, o casal tem sua felicidade ameaçada quando vêm à tona segredos que jamais
               poderiam imaginar.
@@ -70,7 +118,8 @@ function App() {
                 <PlayIcon weight="fill" /> Assistir
               </button>
 
-              <button className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer">
+              <button className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer flex items-center gap-1">
+                <InfoIcon size={18} />
                 Mais informações
               </button>
             </div>
@@ -79,18 +128,72 @@ function App() {
       </section>
 
       <main className="relative z-20 mx-auto -mt-6 md:-mt-2 max-w-7xl px-5 pb-10">
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-6">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+        <div className="relative">
+          <div
+            ref={carouselRef}
+            className="
+              flex
+              gap-3
+              overflow-x-auto
+              scroll-smooth
+              pb-2
+              hide-scrollbar
+              px-1 md:px-2
+            "
+          >
+            {filmes.map((filme) => (
+              <div
+                key={filme.id}
+                className="
+                  min-w-[48%]
+                  sm:min-w-[31%]
+                  md:min-w-[23%]
+                  lg:min-w-[19.2%]
+                  flex-shrink-0
+                "
+              >
+                <Card {...filme} />
+              </div>
+            ))}
+          </div>
         </div>
+
         <div id="card-buttons" className="flex gap-2 justify-end mt-4">
-          <button className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 p-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer hover:text-cyan-500 hover:border-cyan-500">
+          <button
+            onClick={scrollLeft}
+            className="
+        rounded-full
+        border border-white/20
+        bg-white/5
+        p-3
+        text-white
+        backdrop-blur-md
+        transition
+        hover:bg-white/10
+        hover:text-cyan-500
+        hover:border-cyan-500
+        cursor-pointer
+      "
+          >
             <CaretLeftIcon weight="bold" />
           </button>
-          <button className="text-sm md:text-md rounded-full border border-white/20 bg-white/5 p-3 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 cursor-pointer hover:text-cyan-500 hover:border-cyan-500">
+
+          <button
+            onClick={scrollRight}
+            className="
+        rounded-full
+        border border-white/20
+        bg-white/5
+        p-3
+        text-white
+        backdrop-blur-md
+        transition
+        hover:bg-white/10
+        hover:text-cyan-500
+        hover:border-cyan-500
+        cursor-pointer
+      "
+          >
             <CaretRightIcon weight="bold" />
           </button>
         </div>
@@ -116,11 +219,29 @@ function App() {
             Filtrar
           </h4>
 
-          <div className="flex flex-wrap gap-1.5 text-sm text-gray-300">
+          <div className="flex flex-wrap gap-1.5 text-sm text-neutral-300">
             {categorias.map((cat) => (
-              <span key={cat} className="text-xs border border-neutral-700 rounded-full px-3 py-1">
+              <button
+                key={cat}
+                onClick={() => setCategoriaSelecionada(categoriaSelecionada === cat ? '' : cat)}
+                className={`
+                  text-xs
+                  rounded-full
+                  px-3
+                  py-1
+                  border
+                  transition
+                  cursor-pointer
+
+                  ${
+                    categoriaSelecionada === cat
+                      ? 'border-cyan-500 text-cyan-500 bg-cyan-500/10'
+                      : 'border-neutral-700 text-neutral-300 hover:border-cyan-500 hover:text-cyan-500'
+                  }
+                `}
+              >
                 {cat}
-              </span>
+              </button>
             ))}
           </div>
 
