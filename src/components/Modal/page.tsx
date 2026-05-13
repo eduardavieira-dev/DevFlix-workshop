@@ -1,7 +1,7 @@
 import { CaretLeftIcon, CaretRightIcon, PlayIcon, StarIcon, XIcon } from '@phosphor-icons/react'
 
 import { useRef } from 'react'
-import type { Filme } from '../types/filme'
+import type { Filme } from '../../types/filme'
 
 type ModalProps = {
   filme: Filme
@@ -333,7 +333,7 @@ export function Modal({ filme, fecharModal }: ModalProps) {
                     />
                   </div>
 
-                  <div className="bg-black px-2 py-3 text-center">
+                  <div className="px-2 py-3 text-center">
                     <h4 className="text-xs sm:text-sm font-semibold text-white line-clamp-1">
                       {actor.name}
                     </h4>

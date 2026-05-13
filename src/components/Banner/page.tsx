@@ -1,5 +1,5 @@
 import { StarIcon } from '@phosphor-icons/react'
-import type { Filme } from '../types/filme'
+import type { Filme } from '../../types/filme'
 
 type BannerProps = {
   filme: Filme
@@ -25,7 +25,6 @@ export function Banner({ filme, onOpenDetails }: BannerProps) {
           <div className="aspect-[2/3] w-full overflow-hidden rounded-md">
             <img src={filme.imageUrl} alt={filme.title} className="h-full w-full object-cover" />
           </div>
-         
         </div>
         <h3 className="text-md font-medium line-clamp-1">{filme.title}</h3>
         <div className="text-xs flex items-center gap-2 justify-between text-neutral-300">
