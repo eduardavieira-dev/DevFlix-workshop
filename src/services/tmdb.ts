@@ -218,3 +218,43 @@ export async function fetchMovieDetails(movieId: number, mediaType: 'movie' | 't
     cast,
   }
 }
+
+export async function fetchTrendingMovies() {
+  const [{ data }, genresMap] = await Promise.all([
+    tmdbApi.get<{ results: TmdbMovie[] }>(
+      '/trending/movie/week',
+    ),
+    loadGenresMap(),
+  ])
+
+  return data.results.map((movie) => ({
+    ...mapMovieToFilme(movie, genresMap),
+    mediaType: 'movie' as const,
+  }))
+}
+
+export async function fetchTopRatedMovies() {
+  const [{ data }, genresMap] = await Promise.all([
+    tmdbApi.get<{ results: TmdbMovie[] }>(
+      '/movie/top_rated',
+    ),
+    loadGenresMap(),
+  ])
+
+  return data.results.map((movie) => ({
+    ...mapMovieToFilme(movie, genresMap),
+    mediaType: 'movie' as const,
+  }))
+}
+
+export async function fetchPopularTvShows() {
+  const [{ data }, genresMap] = await Promise.all([
+    tmdbApi.get<{ results: TmdbMovie[] }>('/tv/popular'),
+    loadGenresMap(),
+  ])
+
+  return data.results.map((tv) => ({
+    ...mapMovieToFilme(tv, genresMap),
+    mediaType: 'tv' as const,
+  }))
+}

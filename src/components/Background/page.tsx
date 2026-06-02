@@ -1,4 +1,4 @@
-import { FilmSlateIcon, InfoIcon, PlayIcon, StarIcon } from '@phosphor-icons/react'
+import { InfoIcon, PlayIcon, StarIcon } from '@phosphor-icons/react'
 import type { Filme } from '../../types/filme'
 
 type BackgroundProps = {
@@ -8,7 +8,7 @@ type BackgroundProps = {
 
 export function Background({ filme, onOpenDetails }: BackgroundProps) {
   return (
-    <section className="relative h-[65vh] md:h-[70vh] lg:h-[85vh] w-full overflow-hidden">
+    <section id="home" className="relative h-[65vh] md:h-[70vh] lg:h-[85vh] w-full overflow-hidden">
       <img
         src={filme.bannerUrl}
         alt={filme.title}
@@ -16,17 +16,10 @@ export function Background({ filme, onOpenDetails }: BackgroundProps) {
       />
 
       <div className="absolute inset-0 bg-black/60 md:bg-black/40" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/100 md:via-background/60 to-black/10" />
-
-      <h2 className="absolute top-6 left-6 md:left-30 z-20 flex items-center gap-2 text-xl md:text-2xl font-semibold">
-        <FilmSlateIcon size={24} className="text-cyan-400" />
-        <span>
-          Dev<span className="text-cyan-400">Flix</span>
-        </span>
-      </h2>
+      <div className="absolute inset-0 bg-linear-to-t from-background via-background md:via-background/60 to-black/10" />
 
       <div className="relative z-10 flex h-full items-end md:left-20">
-        <div className="max-w-xl px-6 md:px-10 pb-16 md:pb-24">
+        <div className="max-w-xl lg:ml-4 px-6 pb-16 md:px-10 md:pb-24 lg:pl-4">
           <h1 className="mb-4 text-4xl md:text-6xl font-bold">{filme.title}</h1>
 
           <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-neutral-300">
@@ -48,7 +41,7 @@ export function Background({ filme, onOpenDetails }: BackgroundProps) {
               target={filme.watchUrl !== '#' ? '_blank' : undefined}
               rel={filme.watchUrl !== '#' ? 'noreferrer' : undefined}
               aria-disabled={filme.watchUrl === '#'}
-              className="text-sm md:text-md rounded-full bg-cyan-500 px-6 py-3 font-semibold text-white transition hover:bg-cyan-600 cursor-pointer flex items-center gap-1"
+              className="text-sm md:text-md rounded-full bg-purple-500 px-6 py-3 font-semibold text-white transition hover:bg-purple-600 cursor-pointer flex items-center gap-1"
             >
               <PlayIcon weight="fill" /> Assistir
             </a>

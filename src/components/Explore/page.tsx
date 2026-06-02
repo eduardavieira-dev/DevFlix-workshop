@@ -25,10 +25,10 @@ export function Explore({
   onOpenDetails,
 }: ExploreProps) {
   return (
-    <>
+    <section id="explorar">
       <h2 className="text-center font-medium text-3xl mb-2 px-2">Explore filmes e séries</h2>
       <p className="text-center text-neutral-400 text-sm md:mb-5 px-2">
-        Filtre e busque por filmes e séries pelo título, gênero ou ano
+        Filtre e busque por filmes e séries pelo título ou gênero
       </p>
 
       <section className="flex flex-col lg:flex-row max-w-7xl mx-auto md:gap-4 px-4 md:px-8">
@@ -53,6 +53,6 @@ export function Explore({
           </div>
         </div>
       </section>
-    </>
+    </section>
   )
 }

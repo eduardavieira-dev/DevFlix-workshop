@@ -59,7 +59,7 @@ export function Carrossel({ filmes, filmeAtual, onSelectFilme, onOpenDetails }: 
                   className={`
                     min-w-[48%] sm:min-w-[31%] md:min-w-[23%] lg:min-w-[19.2%]
                     flex-shrink-0 transition-all duration-300 cursor-pointer
-                    ${ativo ? 'scale-105 -translate-y-2 text-cyan-500 font-medium' : 'opacity-70 hover:opacity-100'}
+                    ${ativo ? 'scale-105 -translate-y-2 text-purple-300 font-medium' : 'opacity-70 hover:opacity-100'}
                   `}
                 >
                   <Card {...filme} />
@@ -72,13 +72,13 @@ export function Carrossel({ filmes, filmeAtual, onSelectFilme, onOpenDetails }: 
         <div id="card-buttons" className="flex gap-2 justify-end mt-4">
           <button
             onClick={scrollLeft}
-            className="rounded-full border border-white/20 bg-white/5 p-3 text-white backdrop-blur-md transition hover:bg-white/10 hover:text-cyan-500 hover:border-cyan-500 cursor-pointer"
+            className="rounded-full border border-white/20 bg-white/5 p-3 text-white backdrop-blur-md transition hover:bg-white/10 hover:text-purple-500 hover:border-purple-500 cursor-pointer"
           >
             <CaretLeftIcon weight="bold" />
           </button>
           <button
             onClick={scrollRight}
-            className="rounded-full border border-white/20 bg-white/5 p-3 text-white backdrop-blur-md transition hover:bg-white/10 hover:text-cyan-500 hover:border-cyan-500 cursor-pointer"
+            className="rounded-full border border-white/20 bg-white/5 p-3 text-white backdrop-blur-md transition hover:bg-white/10 hover:text-purple-500 hover:border-purple-500 cursor-pointer"
           >
             <CaretRightIcon weight="bold" />
           </button>

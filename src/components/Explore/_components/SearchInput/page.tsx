@@ -17,7 +17,7 @@ export function SearchInput({ value, onChange }: SearchInputProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Pesquisar filmes ou séries..."
-        className="w-full rounded-full border border-neutral-700 bg-white/5 py-3 pl-12 pr-4 text-sm text-white outline-none placeholder:text-neutral-500 transition focus:border-cyan-400 focus:bg-white/10"
+        className="w-full rounded-full border border-neutral-700 bg-white/5 py-3 pl-12 pr-4 text-sm text-white outline-none placeholder:text-neutral-500 transition focus:border-purple-400 focus:bg-white/10"
       />
     </div>
   )

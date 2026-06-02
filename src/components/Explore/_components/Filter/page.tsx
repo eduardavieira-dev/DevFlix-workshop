@@ -16,7 +16,7 @@ export function Filter({
     <aside className="w-full lg:w-58 flex-none lg:border-r border-neutral-800 py-6 px-4 md:px-1 flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <h4 className="font-medium text-lg flex items-center gap-1">
-          <FunnelIcon className="text-cyan-500" />
+          <FunnelIcon className="text-purple-500" />
           Filtrar
         </h4>
 
@@ -42,8 +42,8 @@ export function Filter({
                 text-xs rounded-full px-3 py-1 border transition cursor-pointer
                 ${
                   active
-                    ? 'border-cyan-500 text-cyan-500 bg-cyan-500/10'
-                    : 'border-neutral-700 text-neutral-300 hover:border-cyan-500 hover:text-cyan-500'
+                    ? 'border-purple-400 text-purple-400 bg-purple-500/10'
+                    : 'border-neutral-700 text-neutral-300 hover:border-purple-500 hover:text-purple-500'
                 }
               `}
             >

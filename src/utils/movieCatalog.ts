@@ -39,12 +39,27 @@ export function filtrarFilmes(
 ) {
   const isSearching = termoBusca.trim().length >= 2
 
-  if (isSearching) return filmesEncontrados
-  if (categoriasSelecionadas.length === 0) return filmes
+  // define qual lista será filtrada
+  const listaBase = isSearching ? filmesEncontrados : filmes
 
-  return filmes.filter((filme) =>
-    categoriasSelecionadas.some((categoria) =>
-      filme.genres.toLowerCase().includes(categoria.toLowerCase())
-    )
-  )
+  return listaBase.filter((filme) => {
+    // filtro de busca
+    const matchBusca =
+      termoBusca.trim() === '' ||
+      filme.title.toLowerCase().includes(termoBusca.toLowerCase())
+
+    // transforma "Drama • Suspense" em ["drama", "suspense"]
+    const generosFilme = filme.genres
+      .split('•')
+      .map((genre) => genre.trim().toLowerCase())
+
+    // exige TODAS as categorias selecionadas
+    const matchCategorias =
+      categoriasSelecionadas.length === 0 ||
+      categoriasSelecionadas.every((categoria) =>
+        generosFilme.includes(categoria.toLowerCase())
+      )
+
+    return matchBusca && matchCategorias
+  })
 }

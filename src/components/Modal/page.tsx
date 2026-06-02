@@ -1,7 +1,15 @@
-import { CaretLeftIcon, CaretRightIcon, PlayIcon, StarIcon, XIcon } from '@phosphor-icons/react'
+import {
+  CaretLeftIcon,
+  CaretRightIcon,
+  HeartIcon,
+  PlayIcon,
+  StarIcon,
+  XIcon,
+} from '@phosphor-icons/react'
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Filme } from '../../types/filme'
+import { FAVORITES_UPDATED_EVENT, isFavorite, toggleFavorite } from '../../utils/favorites'
 
 type ModalProps = {
   filme: Filme
@@ -11,6 +19,30 @@ type ModalProps = {
 
 export function Modal({ filme, fecharModal }: ModalProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
+  const [favorite, setFavorite] = useState(false)
+
+  useEffect(() => {
+    setFavorite(isFavorite(filme.id))
+  }, [filme.id])
+
+  useEffect(() => {
+    function syncFavoriteState() {
+      setFavorite(isFavorite(filme.id))
+    }
+
+    window.addEventListener(FAVORITES_UPDATED_EVENT, syncFavoriteState)
+    window.addEventListener('storage', syncFavoriteState)
+
+    return () => {
+      window.removeEventListener(FAVORITES_UPDATED_EVENT, syncFavoriteState)
+      window.removeEventListener('storage', syncFavoriteState)
+    }
+  }, [filme.id])
+
+  function handleFavorite() {
+    const updated = toggleFavorite(filme)
+    setFavorite(updated)
+  }
 
   function scrollLeft() {
     carouselRef.current?.scrollBy({
@@ -271,7 +303,7 @@ export function Modal({ filme, fecharModal }: ModalProps) {
                     gap-2
 
                     rounded-full
-                    bg-cyan-500
+                    bg-purple-500
 
                     px-5
                     py-3
@@ -281,12 +313,47 @@ export function Modal({ filme, fecharModal }: ModalProps) {
                     text-white
 
                     transition
-                    hover:bg-cyan-600
+                    hover:bg-purple-600
                   "
                 >
                   <PlayIcon weight="fill" />
                   Assistir agora
                 </a>
+
+                <button
+                  type="button"
+                  onClick={handleFavorite}
+                  className="
+                    inline-flex
+                    items-center
+                    justify-center
+                    gap-2
+                    cursor-pointer
+
+                    rounded-full
+                    border
+                    border-white/20
+                    bg-white/10
+
+                    px-5
+                    py-3
+
+                    text-sm
+                    font-semibold
+                    text-white
+
+                    transition
+                    hover:bg-white/20
+
+                    data-[active=true]:border-red-500/40
+                    data-[active=true]:bg-red-500/20
+                    data-[active=true]:text-red-500
+                  "
+                  data-active={favorite}
+                >
+                  <HeartIcon weight={favorite ? 'fill' : 'regular'} />
+                  {favorite ? 'Favoritado' : 'Favoritar'}
+                </button>
               </div>
             </div>
           </div>
@@ -307,7 +374,7 @@ export function Modal({ filme, fecharModal }: ModalProps) {
             <div className="flex-none">
               <button
                 onClick={scrollLeft}
-                className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-cyan-500"
+                className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-purple-500"
                 aria-label="Scroll left"
               >
                 <CaretLeftIcon size={18} />
@@ -356,7 +423,7 @@ export function Modal({ filme, fecharModal }: ModalProps) {
             <div className="flex-none">
               <button
                 onClick={scrollRight}
-                className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-cyan-500"
+                className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-purple-500"
                 aria-label="Scroll right"
               >
                 <CaretRightIcon size={18} />
